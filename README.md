@@ -79,7 +79,7 @@ category were part of a promotion?
 l) Calculation of the year-to-year and month-to-month sales Growth.
 
 
-### What is the total number of units sold per product SKU?
+### Question 1: What is the total number of units sold per product SKU?
     SELECT productid,
     SUM(inventoryquantity) AS total_quantity
     FROM sales
@@ -87,7 +87,7 @@ l) Calculation of the year-to-year and month-to-month sales Growth.
     ORDER BY 2 DESC
 
 
-### Which product category had the highest sales volume last month?
+### QUESTION 2: Which product category had the highest sales volume last month?
 
     SELECT p.productid AS pid,p.productcategory AS category,
     SUM(s.inventoryquantity) AS inventory
@@ -311,47 +311,6 @@ What is the average sales quantity per product category?
     ORDER BY 
     sales_month;
 
-### Number of Customers Ordering Last Year vs. This Year
--- YoY% Revenue Growth
-
-    -- Customers Ordering Last Year
-    SELECT
-    COUNT(DISTINCT customerID) AS customers_last_year
-    FROM
-    NorthwindSales
-    WHERE
-    TO_CHAR(orderDate, 'YYYY') = TO_CHAR(SYSDATE, 'YYYY') - 1;
-
--- Customers Ordering This Year
-
-    SELECT
-    COUNT(DISTINCT customerID) AS customers_this_year
-    FROM
-    NorthwindSales
-    WHERE
-    TO_CHAR(orderDate, 'YYYY') = TO_CHAR(SYSDATE,   'YYYY');
-
-### Average Days Between Order Date and Shipping Date.
-    SELECT
-    AVG(shippedDate - orderDate) AS     avg_days_to_ship
-    FROM
-    NorthwindSales;
-
-### Distribution of Number of Orders by Order Month
-    SELECT
-    order_month,
-    number_of_orders
-    FROM (
-    SELECT
-    TO_CHAR(orderDate, 'YYYY-MM') AS        order_month,
-    COUNT(orderID) AS number_of_orders
-    FROM
-    NorthwindSales
-    GROUP BY
-    TO_CHAR(orderDate, 'YYYY-MM')
-    )  
-    ORDER BY
-    order_month;
 
 ### Key Findings
 
