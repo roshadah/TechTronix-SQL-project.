@@ -149,26 +149,26 @@ monthly basis over the last year
 
     -- Aggregate sales data by month and calculate correlation for the last year
 
-    WITH monthly_sales AS (
+   WITH monthly_sales AS (
     SELECT 
-        DATE_TRUNC('month', s.salesdate) AS     sales_month,
-        SUM(s.inventoryquantity) AS     total_sales_volume,
+        DATE_TRUNC('month', s.salesdate) AS sales_month,
+        SUM(s.inventoryquantity) AS total_sales_volume,
         AVG(f.inflationrate) AS avg_inflation_rate
     FROM 
         sales s
     JOIN 
-        factors f ON DATE_TRUNC('month', s. salesdate) = DATE_TRUNC('month', f.salesdate)
+        factors f ON DATE_TRUNC('month', s.salesdate) = DATE_TRUNC('month', f.salesdate)
     WHERE 
-        s.salesdate >= DATE_TRUNC('month',  CURRENT_DATE) - INTERVAL '1 year'
-    GROUP BY 1
-    )
+        s.salesdate >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 year'
+    GROUP BY 
+        DATE_TRUNC('month', s.salesdate)
+)
 
--- Calculate the correlation between total sales volume and average inflation rate
-
-    SELECT 
+SELECT 
     corr(total_sales_volume, avg_inflation_rate) AS sales_inflation_correlation
-    FROM 
+FROM 
     monthly_sales;
+
 
 -- Question 5 : Did promotions significantly impact the sales quantity of products?
 
